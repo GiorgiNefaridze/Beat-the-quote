@@ -51,6 +51,12 @@ export const Levels = styled.div`
   }
 `;
 
+export const StartBtn = styled.button`
+  padding: 5px 15px;
+  color: black;
+  cursor: pointer;
+`;
+
 export const PopUp = styled.div`
   position: absolute;
   display: flex;

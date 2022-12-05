@@ -1,6 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-import { PopUp, Close, FAC, Description, Levels } from "./AboutGamePopUp.style";
+import {
+  PopUp,
+  Close,
+  FAC,
+  Description,
+  Levels,
+  StartBtn,
+} from "./AboutGamePopUp.style";
 
 interface Props {
   setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,6 +15,7 @@ interface Props {
 }
 
 const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
+
   const popUpRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLHeadingElement | null>(null);
 
@@ -30,6 +38,11 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
     };
   }, []);
 
+  const handleClick = (e: any) => {
+    const { htmlFor } = e.target;
+
+  };
+
   return (
     <PopUp ref={popUpRef}>
       <Close>
@@ -46,17 +59,24 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
         <h3>Choose `LEVEL` and good luck.</h3>
         <div>
           <input type="radio" name="game_mode" id="easy" />
-          <label htmlFor="easy">Easy</label>
+          <label onClick={handleClick} htmlFor="easy">
+            Easy
+          </label>
         </div>
         <div>
           <input type="radio" name="game_mode" id="medium" />
-          <label htmlFor="medium">Medium</label>
+          <label onClick={handleClick} htmlFor="medium">
+            Medium
+          </label>
         </div>
         <div>
           <input type="radio" name="game_mode" id="hard" />
-          <label htmlFor="hard">Hard</label>
+          <label onClick={handleClick} htmlFor="hard">
+            Hard
+          </label>
         </div>
       </Levels>
+      <StartBtn title="Start game">Start</StartBtn>
       <FAC>
         Have some questions? Visit <p>FAQ</p>
       </FAC>

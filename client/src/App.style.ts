@@ -17,8 +17,4 @@ export const GlobalStyle = createGlobalStyle`
 export const AppWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #222222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;

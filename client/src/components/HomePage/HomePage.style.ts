@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
 export const ButtonsWrapper = styled.div`
+  width: 100%;
+  height: 92vh;
   display: flex;
   align-items: center;
-  gap:0 30px;
+  justify-content: center;
+  gap: 0 30px;
+  background-color: #222222;
 `;
 
 export const Button = styled.button`
