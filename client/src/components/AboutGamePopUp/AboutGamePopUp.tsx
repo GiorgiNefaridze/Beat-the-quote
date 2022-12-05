@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
+import { DifficultyContext } from "../../context/DifficultyContext";
 
 import {
   PopUp,
@@ -15,9 +17,10 @@ interface Props {
 }
 
 const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
-
   const popUpRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLHeadingElement | null>(null);
+
+  const { difficulty, setDifficulty } = DifficultyContext();
 
   const handleOutsideClick = (e: any) => {
     const { target } = e;
@@ -34,6 +37,7 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
     document.addEventListener("click", handleOutsideClick);
 
     return () => {
+      setDifficulty("");
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
@@ -41,7 +45,12 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
   const handleClick = (e: any) => {
     const { htmlFor } = e.target;
 
+    setDifficulty(htmlFor);
   };
+
+  const startGame = () => {
+    
+  }
 
   return (
     <PopUp ref={popUpRef}>
@@ -76,7 +85,9 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
           </label>
         </div>
       </Levels>
-      <StartBtn title="Start game">Start</StartBtn>
+      <StartBtn title="Start game" onClick={startGame}>
+        Start
+      </StartBtn>
       <FAC>
         Have some questions? Visit <p>FAQ</p>
       </FAC>
