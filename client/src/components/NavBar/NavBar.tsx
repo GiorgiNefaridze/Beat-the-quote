@@ -1,30 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
-import Login from "../Login/Login";
+import Login from "../UserAuth/UserAuth";
 
 import { Nav, Avatar } from "./NavBar.style";
 
 const NavBar: React.FC = () => {
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showPopUp, setShowPopUp] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>("");
 
-  const loginBtnRef = useRef<HTMLButtonElement | null>(null);
-
   const login = () => {
-    setShowLogin(true);
+    setShowPopUp(true);
   };
 
   return (
     <Nav>
-      <button onClick={login} ref={loginBtnRef}>
-        Login
-      </button>
+      <button onClick={login}>Login</button>
 
       {/* <span>User name</span>
       <Avatar src={avatar} /> */}
-      {showLogin && (
-        <Login setShowLogin={setShowLogin} loginBtn={loginBtnRef} />
-      )}
+      {showPopUp && <Login setShowPopUp={setShowPopUp} />}
     </Nav>
   );
 };
