@@ -24,14 +24,32 @@ export const signUp = async (req, res) => {
       image,
     };
 
-    const user = await User(newUser).save();
+    await User(newUser).save();
 
-    res.status(201).json({ userName: user.userName, email: user.email });
+    res.status(201).json({ text: "User created successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 export const logIn = async (req, res) => {
-  res.send("logIn successfully");
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!email.includes("@")) {
+      throw new Error("Please enter a valid email address");
+    }
+
+    const actualPassword = await bcrypt.compare(password, user?.password);
+
+    if (!actualPassword || email !== user.email) {
+      throw new Error("Your email or password is incorrect");
+    }
+
+    res.status(200).json({ userName: user.userName, email: user.email });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
