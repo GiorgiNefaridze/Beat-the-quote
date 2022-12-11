@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LoginWrapper = styled.form`
+export const LoginWrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;

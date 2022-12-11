@@ -11,6 +11,7 @@ export const useGetQuote = () => {
 
   const getQuote = async (difficulty: IDifficulty) => {
     setLoading(true);
+
     const { data } = await API.post("/api/quote/getQuote", { difficulty });
 
     setLoading(false);
