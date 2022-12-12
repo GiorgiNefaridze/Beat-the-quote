@@ -5,7 +5,7 @@ interface IProps {
 }
 
 interface IUser {
-  username: string;
+  userName: string;
   email: string;
   image: string | null;
 }

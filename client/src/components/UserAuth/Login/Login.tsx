@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { useLogin } from "../../../hooks/useLogin";
 
+import { UserContext } from "../../../context/UserContext";
 import { IData } from "../UserAuth";
 
 interface IProps {
@@ -13,6 +14,7 @@ const Login: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
   const [formData, setFormData] = useState<IData>({} as IData);
 
   const { loginUser, loading, error, setError } = useLogin();
+  const { setUser } = UserContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

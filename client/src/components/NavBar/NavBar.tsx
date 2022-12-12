@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
-import Login from "../UserAuth/UserAuth";
+import { UserContext } from "../../context/UserContext";
+import UserAuth from "../UserAuth/UserAuth";
 
 import { Nav, Avatar } from "./NavBar.style";
 
 const NavBar: React.FC = () => {
   const [showPopUp, setShowPopUp] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<string>("");
+
+  const { user } = UserContext();
 
   const login = () => {
     setShowPopUp(true);
@@ -14,11 +17,15 @@ const NavBar: React.FC = () => {
 
   return (
     <Nav>
-      <button onClick={login}>Login</button>
+      {!user.email && <button onClick={login}>Login</button>}
 
-      {/* <span>User name</span>
-      <Avatar src={avatar} /> */}
-      {showPopUp && <Login setShowPopUp={setShowPopUp} />}
+      {user.email && (
+        <>
+          <span>{user?.userName}</span>
+          {user?.image ? <Avatar src={user?.image} /> : <FaUserCircle />}
+        </>
+      )}
+      {showPopUp && <UserAuth setShowPopUp={setShowPopUp} />}
     </Nav>
   );
 };
