@@ -27,7 +27,7 @@ const UserAuth: React.FC<Props> = ({ setShowPopUp }) => {
       {!logIn ? (
         <Login setShowPopUp={setShowPopUp} setLogIn={setLogIn} />
       ) : (
-        <SignUp setLogIn={setLogIn} setShowPopUp={setShowPopUp} />
+        <SignUp setLogIn={setLogIn} />
       )}
     </LoginWrapper>
   );

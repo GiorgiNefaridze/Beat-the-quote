@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 
+import { useSignUp } from "../../../hooks/useSignUp";
+
 import { IData } from "../UserAuth";
 
 interface IProps {
   setLogIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
+const SignUp: React.FC<IProps> = ({ setLogIn }) => {
   const [formData, setFormData] = useState<IData>({} as IData);
-  const [image, setImage] = useState<string>("");
+
+  const { signUp, error, setError, loading } = useSignUp();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    setError("");
 
     setFormData({ ...formData, [name]: value });
   };
@@ -25,7 +29,7 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
       reader.readAsDataURL(files[0]);
       reader.onload = () => {
         if (typeof reader.result === "string") {
-          setImage(reader.result);
+          setFormData({ ...formData, image: reader.result });
         }
       };
     }
@@ -35,8 +39,28 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
     setLogIn(false);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { userName, password, email, image } = formData;
+
+    const createdUser = await signUp(userName, email, password, image);
+    if (createdUser?.data.text) {
+      console.log(createdUser?.data.text);
+      logIn();
+    }
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -44,7 +68,7 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
           value={formData.userName}
           type="text"
           id="username"
-          name="username"
+          name="userName"
         />
       </div>
       <div>
@@ -75,7 +99,7 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
           id="image"
         />
         <label htmlFor="image">Upload Image</label>
-        <img style={{ width: "40px", height: "40px" }} src={image} />
+        <img style={{ width: "40px", height: "40px" }} src={formData?.image} />
       </div>
       <div>
         <button type="submit">Sign up</button>
@@ -84,7 +108,8 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
           <span onClick={logIn}>Log in</span>
         </p>
       </div>
-    </>
+      {error}
+    </form>
   );
 };
 
