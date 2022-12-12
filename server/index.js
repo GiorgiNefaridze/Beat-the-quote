@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 import QuoteRoutes from "./routes/quoteRoute.js";
 import UserRoutes from "./routes/userRoute.js";
@@ -16,6 +17,8 @@ mongoose
 const app = express();
 
 const port = process.env.PORT || 8080;
+
+app.use(bodyParser({ limit: "100mb" }));
 
 app.use(cors());
 app.use(express.json());
