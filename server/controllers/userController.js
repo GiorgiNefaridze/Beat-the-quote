@@ -66,6 +66,7 @@ export const logIn = async (req, res) => {
       userName: user.userName,
       email: user.email,
       image: user.image ? user.image : null,
+      score: user.score,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

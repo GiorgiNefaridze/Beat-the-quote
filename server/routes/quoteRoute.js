@@ -5,6 +5,6 @@ import { getQuote } from "../controllers/quoteController.js";
 const router = Router();
 
 //Get all quotes
-router.get("/getQuote", getQuote);
+router.post("/getQuote", getQuote);
 
 export default router;

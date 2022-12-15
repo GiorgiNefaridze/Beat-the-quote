@@ -18,7 +18,7 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser({ limit: "100mb" }));
+app.use(bodyParser({ limit: "10mb" }));
 
 app.use(cors());
 app.use(express.json());

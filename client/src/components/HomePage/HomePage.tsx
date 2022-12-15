@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
       >
         Start Game
       </Button>
-      <Button title="Go Dashboard">Go Dashboard</Button>
       {showPopUp && (
         <AboutGamePopUp setShowPopUp={setShowPopUp} startRef={startRef} />
       )}

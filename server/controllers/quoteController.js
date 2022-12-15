@@ -9,7 +9,7 @@ export const getQuote = async (req, res) => {
       .limit(1)
       .skip(Math.random() * quotesLength);
 
-    res.status(200).json(randomQuote);
+    res.status(200).json(randomQuote[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
