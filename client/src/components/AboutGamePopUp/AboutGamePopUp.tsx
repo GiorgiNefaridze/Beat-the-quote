@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { DifficultyContext } from "../../context/DifficultyContext";
 import { UserContext } from "../../context/UserContext";
@@ -27,6 +28,7 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
   const { difficulty, setDifficulty } = DifficultyContext();
   const { setShowPopUp: setShow } = AuthContext();
   const { user } = UserContext();
+  const navigate = useNavigate();
 
   const handleOutsideClick = (e: any) => {
     const { target } = e;
@@ -65,6 +67,8 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
       setError(true);
       return;
     }
+
+    navigate("/game");
   };
 
   return (

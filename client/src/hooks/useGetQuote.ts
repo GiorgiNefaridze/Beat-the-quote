@@ -2,14 +2,17 @@ import { useState } from "react";
 
 import { API } from "../api/QuoteApi";
 
-interface IDifficulty {
+interface IQuote {
+  text: string;
+  author: string | null;
   difficulty: string;
+  _id: string;
 }
 
 export const useGetQuote = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getQuote = async (difficulty: IDifficulty) => {
+  const getQuote = async (difficulty: string): Promise<IQuote> => {
     setLoading(true);
 
     const { data } = await API.post("/api/quote/getQuote", { difficulty });
