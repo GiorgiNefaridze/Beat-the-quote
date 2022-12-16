@@ -9,7 +9,18 @@ import { UserContext } from "../../context/UserContext";
 
 import { GamePageWrapper } from "./GamePage.style";
 
+interface IQuoteDetails {
+  _id: string;
+  text: string;
+  author: string | null;
+  difficulty: string;
+  point: number;
+}
+
 const GamePage: React.FC = () => {
+  const [quoteDetail, setQuoteDetail] = useState<IQuoteDetails>(
+    {} as IQuoteDetails
+  );
   const [quote, setQuote] = useState<string[]>([]);
   const [writtenQuote, setWrittenQuote] = useState<string[]>([]);
 
@@ -23,6 +34,7 @@ const GamePage: React.FC = () => {
     if (difficulty) {
       (async () => {
         const randomQuote = await getRandomQuote(difficulty);
+        setQuoteDetail(randomQuote?.quote);
         setQuote(randomQuote?.letterOfQuote);
       })();
 
@@ -43,9 +55,10 @@ const GamePage: React.FC = () => {
       if (quote.length === 1 && difficultyLevel) {
         const randomQuote = await getRandomQuote(difficultyLevel);
         setWrittenQuote([]);
+        setQuoteDetail(randomQuote?.quote);
         setQuote(randomQuote?.letterOfQuote);
 
-        await completeQuote(randomQuote?.quote, user?.email, user?.userName);
+        await completeQuote(quoteDetail, user?.email, user?.userName);
         return;
       }
     }
