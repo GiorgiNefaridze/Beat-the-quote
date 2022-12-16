@@ -22,11 +22,14 @@ export const saveQuote = async (req, res) => {
 
     const user = await User.findOne({ email, userName });
 
-    console.log(quote)
-
     await User.updateOne(
       { _id: user._id },
-      { $set: { quotes: [...user.quotes, quote] } }
+      {
+        $set: {
+          quotes: [...user.quotes, quote],
+          score: user.score + quote?.point,
+        },
+      }
     );
   } catch (err) {
     res.status(500).json({ error: err.message });

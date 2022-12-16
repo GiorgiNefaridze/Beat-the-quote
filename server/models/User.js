@@ -8,7 +8,13 @@ const UserSchema = new Schema({
   score: { type: Number, default: 0 },
   quotes: {
     type: [
-      { _id: String, text: String, author: String | null, String: String },
+      {
+        _id: String,
+        text: String,
+        author: String | null,
+        difficult: String,
+        point: number,
+      },
     ],
     default: [],
   },
