@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useGetQuote } from "../../hooks/useGetQuote";
+import { useGetRandomQoute } from "../../helper/getRandomQuote";
 import { useNavigate } from "react-router-dom";
 
 import { DifficultyContext } from "../../context/DifficultyContext";
@@ -12,19 +12,14 @@ const GamePage: React.FC = () => {
   const [writtenQuote, setWrittenQuote] = useState<string[]>([]);
 
   const { difficulty } = DifficultyContext();
-  const { getQuote, loading } = useGetQuote();
+  const { getRandomQuote } = useGetRandomQoute();
   const navigate = useNavigate();
 
   useEffect(() => {
-    let letterOfQuote = [];
     if (difficulty) {
       (async () => {
-        const { text, author } = await getQuote(difficulty);
-        for (let i = 0; i < text.length; i++) {
-          letterOfQuote.push(text[i]);
-        }
-
-        setQuote(letterOfQuote);
+        const randomQuote = await getRandomQuote(difficulty);
+        setQuote(randomQuote);
       })();
 
       return;
@@ -32,15 +27,19 @@ const GamePage: React.FC = () => {
     navigate("/");
   }, []);
 
-  onkeydown = (e: any) => {
+  onkeydown = async (e: any) => {
     const { key } = e;
 
     if (quote && key === quote[0]) {
       setWrittenQuote([...writtenQuote, quote[0]]);
       setQuote(quote.slice(1));
 
-      if (quote.length === 1) {
-        
+      const difficultyLevel = localStorage.getItem("difficulty");
+
+      if (quote.length === 1 && difficultyLevel) {
+        const randomQuote = await getRandomQuote(difficultyLevel);
+        setWrittenQuote([]);
+        setQuote(randomQuote);
         return;
       }
     }
@@ -49,11 +48,15 @@ const GamePage: React.FC = () => {
   return (
     <GamePageWrapper>
       <q style={{ display: "flex" }}>
-        {writtenQuote?.map((letter) => (
-          <h1 style={{ background: "green", whiteSpace: "pre" }}>{letter}</h1>
+        {writtenQuote?.map((letter, idx) => (
+          <h1 key={idx} style={{ background: "green", whiteSpace: "pre" }}>
+            {letter}
+          </h1>
         ))}
-        {quote?.map((letter) => (
-          <h1 style={{ whiteSpace: "pre" }}>{letter}</h1>
+        {quote?.map((letter, idx) => (
+          <h1 key={idx} style={{ whiteSpace: "pre" }}>
+            {letter}
+          </h1>
         ))}
       </q>
     </GamePageWrapper>

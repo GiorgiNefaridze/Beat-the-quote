@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { API } from "../api/QuoteApi";
+import { API } from "../api/BaseUrl";
 
 interface IQuote {
   text: string;
@@ -9,7 +9,7 @@ interface IQuote {
   _id: string;
 }
 
-export const useGetQuote = () => {
+export const UseGetQuote = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getQuote = async (difficulty: string): Promise<IQuote> => {

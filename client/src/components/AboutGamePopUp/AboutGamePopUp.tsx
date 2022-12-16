@@ -55,6 +55,7 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
     setError(false);
 
     setDifficulty(htmlFor);
+    localStorage.setItem("difficulty", htmlFor);
   };
 
   const startGame = () => {

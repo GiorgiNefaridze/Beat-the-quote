@@ -2,7 +2,7 @@ import { useState } from "react";
 import { isAxiosError } from "axios";
 
 import { UserContext } from "../context/UserContext";
-import { API } from "../api/QuoteApi";
+import { API } from "../api/BaseUrl";
 
 export const useLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);

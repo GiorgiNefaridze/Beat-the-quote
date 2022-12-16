@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { isAxiosError } from "axios";
 
-import { API } from "../api/QuoteApi";
+import { API } from "../api/BaseUrl";
 
 export const useSignUp = () => {
   const [loading, setLoading] = useState<boolean>(false);
