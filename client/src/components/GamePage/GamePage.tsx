@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 
+import { useCompleteQuote } from "../../hooks/useCompleteQuote";
 import { useGetRandomQoute } from "../../helper/getRandomQuote";
 import { useNavigate } from "react-router-dom";
 
 import { DifficultyContext } from "../../context/DifficultyContext";
+import { UserContext } from "../../context/UserContext";
 
 import { GamePageWrapper } from "./GamePage.style";
 
@@ -13,13 +15,15 @@ const GamePage: React.FC = () => {
 
   const { difficulty } = DifficultyContext();
   const { getRandomQuote } = useGetRandomQoute();
+  const { completeQuote } = useCompleteQuote();
+  const { user } = UserContext();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (difficulty) {
       (async () => {
         const randomQuote = await getRandomQuote(difficulty);
-        setQuote(randomQuote);
+        setQuote(randomQuote?.letterOfQuote);
       })();
 
       return;
@@ -39,7 +43,9 @@ const GamePage: React.FC = () => {
       if (quote.length === 1 && difficultyLevel) {
         const randomQuote = await getRandomQuote(difficultyLevel);
         setWrittenQuote([]);
-        setQuote(randomQuote);
+        setQuote(randomQuote?.letterOfQuote);
+
+        await completeQuote(randomQuote?.quote, user?.email, user?.userName);
         return;
       }
     }

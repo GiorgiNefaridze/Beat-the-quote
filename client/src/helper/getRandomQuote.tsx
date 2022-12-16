@@ -1,17 +1,28 @@
 import { UseGetQuote } from "../hooks/useGetQuote";
 
+interface IProps {
+  quote: {
+    _id: string;
+    text: string;
+    author: string | null;
+    difficulty: string;
+    point: number;
+  };
+  letterOfQuote: string[];
+}
+
 export const useGetRandomQoute = () => {
   const { getQuote } = UseGetQuote();
 
-  const getRandomQuote = async (difficulty: string): Promise<string[]> => {
+  const getRandomQuote = async (difficulty: string): Promise<IProps> => {
     let letterOfQuote = [];
 
-    const { text, author } = await getQuote(difficulty);
-    for (let i = 0; i < text.length; i++) {
-      letterOfQuote.push(text[i]);
+    const quote = await getQuote(difficulty);
+    for (let i = 0; i < quote?.text.length; i++) {
+      letterOfQuote.push(quote?.text[i]);
     }
 
-    return letterOfQuote;
+    return { quote, letterOfQuote };
   };
 
   return { getRandomQuote };

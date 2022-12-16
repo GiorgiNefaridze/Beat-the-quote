@@ -3,10 +3,11 @@ import { useState } from "react";
 import { API } from "../api/BaseUrl";
 
 interface IQuote {
+  _id: string;
   text: string;
   author: string | null;
   difficulty: string;
-  _id: string;
+  point: number
 }
 
 export const UseGetQuote = () => {
