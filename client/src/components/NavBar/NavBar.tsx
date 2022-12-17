@@ -1,11 +1,13 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 
+import UserAvatar from "./Avatar/Avatar";
+
 import { AuthContext } from "../../context/AuthPopUpContext";
 import { UserContext } from "../../context/UserContext";
 import UserAuth from "../UserAuth/UserAuth";
 
-import { Nav, Avatar } from "./NavBar.style";
+import { Nav } from "./NavBar.style";
 
 const NavBar: React.FC = () => {
   const { user } = UserContext();
@@ -22,7 +24,7 @@ const NavBar: React.FC = () => {
       {user.email && (
         <>
           <span>{user?.userName}</span>
-          {user?.image ? <Avatar src={user?.image} /> : <FaUserCircle />}
+          {user?.image ? <UserAvatar /> : <FaUserCircle />}
         </>
       )}
       {showPopUp && <UserAuth setShowPopUp={setShowPopUp} />}

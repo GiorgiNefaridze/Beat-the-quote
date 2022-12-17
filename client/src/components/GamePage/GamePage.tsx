@@ -70,6 +70,10 @@ const GamePage: React.FC = () => {
     }
   };
 
+  const goBack = () => {
+    navigate("/");
+  };
+
   return (
     <GamePageWrapper>
       <q style={{ display: "flex" }}>
@@ -84,6 +88,8 @@ const GamePage: React.FC = () => {
           </h1>
         ))}
       </q>
+
+      <button onClick={goBack}>Go back</button>
     </GamePageWrapper>
   );
 };

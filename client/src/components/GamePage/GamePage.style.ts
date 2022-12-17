@@ -9,4 +9,11 @@ export const GamePageWrapper = styled.div`
   justify-content: center;
   text-align: center;
   padding-inline: 10rem;
+  position: relative;
+
+  button {
+    position: absolute;
+    left: 2%;
+    bottom: 5%;
+  }
 `;
