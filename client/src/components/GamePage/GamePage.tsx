@@ -31,7 +31,9 @@ const GamePage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (difficulty) {
+    let allowToFetch = true;
+
+    if (difficulty && allowToFetch) {
       (async () => {
         const randomQuote = await getRandomQuote(difficulty);
         setQuoteDetail(randomQuote?.quote);
@@ -41,6 +43,10 @@ const GamePage: React.FC = () => {
       return;
     }
     navigate("/");
+
+    return () => {
+      allowToFetch = false;
+    };
   }, []);
 
   onkeydown = async (e: any) => {
