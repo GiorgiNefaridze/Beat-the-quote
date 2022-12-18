@@ -22,7 +22,7 @@ export const UserContext = () => {
 };
 
 export const UserContextProvider = ({ children }: IProps) => {
-  const [user, setUser] = useState({} as IUser);
+  const [user, setUser] = useState<IUser>({} as IUser);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user") || "false");

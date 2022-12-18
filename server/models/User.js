@@ -13,7 +13,7 @@ const UserSchema = new Schema({
         text: String,
         author: String | null,
         difficult: String,
-        point: number,
+        point: Number,
       },
     ],
     default: [],

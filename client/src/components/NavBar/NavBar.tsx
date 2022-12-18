@@ -1,5 +1,4 @@
 import React from "react";
-import { FaUserCircle } from "react-icons/fa";
 
 import UserAvatar from "./Avatar/Avatar";
 
@@ -24,7 +23,7 @@ const NavBar: React.FC = () => {
       {user.email && (
         <>
           <span>{user?.userName}</span>
-          {user?.image ? <UserAvatar /> : <FaUserCircle />}
+          <UserAvatar />
         </>
       )}
       {showPopUp && <UserAuth setShowPopUp={setShowPopUp} />}

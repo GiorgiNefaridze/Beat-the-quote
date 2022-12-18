@@ -59,7 +59,7 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
   };
 
   const startGame = () => {
-    if (user.hasOwnProperty("email") === false) {
+    if (!user?.email) {
       setShowPopUp(false);
       setShow(true);
     }
