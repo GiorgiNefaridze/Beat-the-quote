@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
-export const ButtonsWrapper = styled.div`
+export const HomeWrapper = styled.div`
   width: 100%;
   height: 92vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0 30px;
+  flex-direction: column;
+  gap: 15% 0px;
   background-color: #222222;
 `;
 

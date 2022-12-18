@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 
 import AboutGamePopUp from "../AboutGamePopUp/AboutGamePopUp";
+import Dashboard from "../Dashboard/Dashboard";
 
-import { Button, ButtonsWrapper } from "./HomePage.style";
+import { Button, HomeWrapper } from "./HomePage.style";
 
 const HomePage: React.FC = () => {
   const [showPopUp, setShowPopUp] = useState<boolean>(false);
@@ -10,7 +11,8 @@ const HomePage: React.FC = () => {
   const startRef = useRef<HTMLButtonElement | null>(null);
 
   return (
-    <ButtonsWrapper>
+    <HomeWrapper>
+      <Dashboard />
       <Button
         ref={startRef}
         title="Start Game"
@@ -21,7 +23,7 @@ const HomePage: React.FC = () => {
       {showPopUp && (
         <AboutGamePopUp setShowPopUp={setShowPopUp} startRef={startRef} />
       )}
-    </ButtonsWrapper>
+    </HomeWrapper>
   );
 };
 
