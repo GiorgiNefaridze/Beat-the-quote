@@ -14,15 +14,15 @@ export const useLogin = () => {
     setLoading(true);
 
     try {
-      const response = await API.post("/api/user/log-in", {
+      const { data } = await API.post("/api/user/log-in", {
         email,
         password,
       });
 
-      localStorage.setItem("user", JSON.stringify(response?.data));
-      setUser(response?.data);
+      localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
 
-      return response;
+      return data;
     } catch (error) {
       if (isAxiosError(error)) {
         setError(error.response?.data?.error);

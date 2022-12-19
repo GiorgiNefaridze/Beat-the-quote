@@ -1,8 +1,6 @@
 import { useState, createContext, useContext } from "react";
 
-interface IProps {
-  children: React.ReactNode;
-}
+import { IProps } from "./UserContext";
 
 interface IAuthContext {
   showPopUp: boolean;

@@ -1,13 +1,17 @@
 import { useState, createContext, useContext, useEffect } from "react";
 
-interface IProps {
+export interface IProps {
   children: React.ReactNode;
 }
 
-interface IUser {
+export interface IUser {
   userName: string;
   email: string;
   image: string | null;
+  score?: number;
+  _id?: string;
+  password?: string;
+  quotes?: [];
 }
 
 interface IUserContext {
