@@ -16,6 +16,7 @@ export const LoginWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 40px 0;
+  z-index: 90;
 
   div {
     width: 100%;

@@ -1,11 +1,13 @@
 import { API } from "../api/BaseUrl";
 
-export const useGetAllUsers = () => {
-  const getAllUSers = async () => {
-    const users = await API("/api/users/get-users");
+import { IUsers } from "../components/Dashboard/Dashboard";
 
-    return users;
+export const useGetAllUsers = () => {
+  const getAllUsers = async (): Promise<IUsers[]> => {
+    const { data } = await API.get("/api/user/get-users");
+
+    return data;
   };
 
-  return { getAllUSers };
+  return { getAllUsers };
 };
