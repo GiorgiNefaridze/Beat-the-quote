@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { UserContext } from "../../context/UserContext";
+import { AllUsersContext } from "../../context/AllUsersContext";
 
 import { useGetAllUsers } from "../../hooks/useGetAllUsers";
 
@@ -24,8 +25,9 @@ export interface IUsers {
 }
 
 const Dashboard: React.FC = () => {
-  const [users, setUsers] = useState<IUsers[]>([]);
+  const [queue, setQueue] = useState<number>(0);
 
+  const { users, setUsers } = AllUsersContext();
   const { getAllUsers } = useGetAllUsers();
   const { user } = UserContext();
 
@@ -43,33 +45,65 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setQueue(users?.map((user) => user.email).indexOf(user?.email) + 1);
+  }, [users]);
+
   return (
     <DashboardWrapeper>
       <h1>LEADERBOARD</h1>
       <UserWrapper>
         {users?.map((userInfo, idx) => {
           const { image, userName, email, score } = userInfo;
-          if (idx <= 4)
-            return (
-              <User owner={email === user?.email} key={idx}>
-                <h4>{idx + 1}</h4>
-                <AvatarWrapper>
-                  {image ? (
-                    <img src={image} />
-                  ) : (
-                    <img src={process.env.PUBLIC_URL + "images/avatar.png"} />
-                  )}
-                  <UserImage
-                    display={idx === 0 ? "block" : "none"}
-                    src={process.env.PUBLIC_URL + "images/golden.png"}
-                  />
-                  <span>{userName}</span>
-                </AvatarWrapper>
-                <div></div>
-                <p>{score}</p>
-              </User>
-            );
+          return (
+            <User visibility={idx < 5} owner={email === user?.email} key={idx}>
+              <h4>{idx + 1}</h4>
+              <AvatarWrapper>
+                {image ? (
+                  <img src={image} />
+                ) : (
+                  <img src={process.env.PUBLIC_URL + "images/avatar.png"} />
+                )}
+                <UserImage
+                  display={idx === 0 ? "block" : "none"}
+                  src={process.env.PUBLIC_URL + "images/golden.png"}
+                />
+                <span>{userName}</span>
+              </AvatarWrapper>
+              <div></div>
+              <p>{score}</p>
+            </User>
+          );
         })}
+        <br />
+        {user?.email?.length && (
+          <User visibility={true} owner={true}>
+            <h4>{queue}</h4>
+            <AvatarWrapper>
+              {user?.image ? (
+                <img src={user?.image} />
+              ) : (
+                <img src={process.env.PUBLIC_URL + "images/avatar.png"} />
+              )}
+              <UserImage
+                display={"none"}
+                src={process.env.PUBLIC_URL + "images/golden.png"}
+              />
+              <span>{user?.userName}</span>
+            </AvatarWrapper>
+            {queue < 5 ? (
+              <img
+                style={{ width: "15px", height: "15px" }}
+                src={process.env.PUBLIC_URL + "images/green-arrow.png"}
+              />
+            ) : (
+              <img
+                style={{ width: "15px", height: "15px" }}
+                src={process.env.PUBLIC_URL + "images/red-arrow.png"}
+              />
+            )}
+          </User>
+        )}
       </UserWrapper>
     </DashboardWrapeper>
   );

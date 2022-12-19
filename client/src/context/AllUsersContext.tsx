@@ -1,10 +1,11 @@
 import { useState, createContext, useContext } from "react";
 
-import { IProps, IUser } from "./UserContext";
+import { IProps } from "./UserContext";
+import { IUsers } from "../components/Dashboard/Dashboard";
 
 interface IAllUsersContext {
-  users: IUser[];
-  setUser: React.Dispatch<React.SetStateAction<IUser[]>>;
+  users: IUsers[];
+  setUsers: React.Dispatch<React.SetStateAction<IUsers[]>>;
 }
 
 const usersContext = createContext<IAllUsersContext>({} as IAllUsersContext);
@@ -14,10 +15,10 @@ export const AllUsersContext = () => {
 };
 
 export const AllUsersContextProvider = ({ children }: IProps) => {
-  const [users, setUser] = useState<IUser[]>([]);
+  const [users, setUsers] = useState<IUsers[]>([]);
 
   return (
-    <usersContext.Provider value={{ users, setUser }}>
+    <usersContext.Provider value={{ users, setUsers }}>
       {children}
     </usersContext.Provider>
   );

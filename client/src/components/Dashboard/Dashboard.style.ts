@@ -3,6 +3,7 @@ import styled from "styled-components";
 interface IProps {
   display?: string;
   owner?: boolean;
+  visibility?: boolean;
 }
 
 export const DashboardWrapeper = styled.div`
@@ -23,6 +24,7 @@ export const AvatarWrapper = styled.div`
   height: 30px;
   position: relative;
 `;
+
 export const UserImage = styled.img<IProps | HTMLElement>`
   width: 45px !important;
   height: 40px !important;
@@ -65,6 +67,8 @@ export const UserWrapper = styled.div`
 `;
 
 export const User = styled.div<IProps | HTMLElement>`
+  display: ${({ visibility }) =>
+    visibility ? "flex!important" : "none!important"};
   width: 100%;
   display: flex;
   align-items: center;
