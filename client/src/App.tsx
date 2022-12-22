@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/game"
-          element={user?.hasOwnProperty("email") ? <GamePage /> : <HomePage />}
+          element={user?.email?.length ? <GamePage /> : <HomePage />}
         />
       </Routes>
     </AppWrapper>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Timer from "../Timer/Timer";
+import EndGamePopUp from "../EndGamePopUp/EndGamePopUp";
 
 import { useCompleteQuote } from "../../hooks/useCompleteQuote";
 import { useGetRandomQoute } from "../../helper/getRandomQuote";
@@ -11,7 +12,7 @@ import { UserContext } from "../../context/UserContext";
 
 import { GamePageWrapper } from "./GamePage.style";
 
-interface IQuoteDetails {
+export interface IQuoteDetails {
   _id: string;
   text: string;
   author: string | null;
@@ -25,7 +26,7 @@ const GamePage: React.FC = () => {
   );
   const [quote, setQuote] = useState<string[]>([]);
   const [writtenQuote, setWrittenQuote] = useState<string[]>([]);
-  const [timer, setTimer] = useState<number>(5);
+  const [timer, setTimer] = useState<number>(2);
   const [endGame, setEndGame] = useState<boolean>(false);
 
   const { difficulty } = DifficultyContext();
@@ -56,6 +57,7 @@ const GamePage: React.FC = () => {
   useEffect(() => {
     if (timer === 0) {
       setEndGame(true);
+      return;
     }
   }, [timer]);
 
@@ -84,10 +86,6 @@ const GamePage: React.FC = () => {
     navigate("/");
   };
 
-  if (endGame) {
-    // return;
-  }
-
   return (
     <GamePageWrapper>
       <Timer timer={timer} setTimer={setTimer} />
@@ -105,6 +103,8 @@ const GamePage: React.FC = () => {
       </q>
 
       <button onClick={goBack}>Go back</button>
+
+      {endGame && <EndGamePopUp quoteDetail={quoteDetail} />}
     </GamePageWrapper>
   );
 };

@@ -15,6 +15,10 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #F3EFE0;
         color:black
     }
+
+    button{
+        cursor:pointer;
+    }
 `;
 
 export const AppWrapper = styled.div`
