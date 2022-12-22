@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
           );
         })}
         <br />
-        {user?.email?.length && (
+        {user?.email?.length ? (
           <User visibility={true} owner={true}>
             <h4>{queue}</h4>
             <AvatarWrapper>
@@ -103,7 +103,7 @@ const Dashboard: React.FC = () => {
               />
             )}
           </User>
-        )}
+        ) : null}
       </UserWrapper>
     </DashboardWrapeper>
   );

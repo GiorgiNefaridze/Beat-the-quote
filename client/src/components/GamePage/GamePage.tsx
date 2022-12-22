@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Timer from "../Timer/Timer";
 
 import { useCompleteQuote } from "../../hooks/useCompleteQuote";
 import { useGetRandomQoute } from "../../helper/getRandomQuote";
-import { useNavigate } from "react-router-dom";
 
 import { DifficultyContext } from "../../context/DifficultyContext";
 import { UserContext } from "../../context/UserContext";
@@ -23,6 +25,8 @@ const GamePage: React.FC = () => {
   );
   const [quote, setQuote] = useState<string[]>([]);
   const [writtenQuote, setWrittenQuote] = useState<string[]>([]);
+  const [timer, setTimer] = useState<number>(5);
+  const [endGame, setEndGame] = useState<boolean>(false);
 
   const { difficulty } = DifficultyContext();
   const { getRandomQuote } = useGetRandomQoute();
@@ -49,10 +53,16 @@ const GamePage: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (timer === 0) {
+      setEndGame(true);
+    }
+  }, [timer]);
+
   onkeydown = async (e: any) => {
     const { key } = e;
 
-    if (quote && key === quote[0]) {
+    if (quote && key === quote[0] && !endGame) {
       setWrittenQuote([...writtenQuote, quote[0]]);
       setQuote(quote.slice(1));
 
@@ -74,8 +84,13 @@ const GamePage: React.FC = () => {
     navigate("/");
   };
 
+  if (endGame) {
+    // return;
+  }
+
   return (
     <GamePageWrapper>
+      <Timer timer={timer} setTimer={setTimer} />
       <q style={{ display: "flex" }}>
         {writtenQuote?.map((letter, idx) => (
           <h1 key={idx} style={{ background: "green", whiteSpace: "pre" }}>
