@@ -123,12 +123,6 @@ const UserAvatar: React.FC = () => {
           </ListItemIcon>
           Add another account
         </MenuItem>
-        <MenuItem style={{ color: "black" }}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
         <MenuItem style={{ color: "black" }} onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" />

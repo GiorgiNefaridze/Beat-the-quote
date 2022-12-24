@@ -5,7 +5,7 @@ interface IPops {
   setTimer: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Timer: React.FC<IPops> = memo(({ timer, setTimer }) => {
+const Timer: React.FC<IPops> = ({ timer, setTimer }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer > 0) {
@@ -23,6 +23,6 @@ const Timer: React.FC<IPops> = memo(({ timer, setTimer }) => {
       <h1>Timer: {timer} </h1>
     </div>
   );
-});
+};
 
-export default Timer;
+export default memo(Timer);

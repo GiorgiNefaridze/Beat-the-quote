@@ -26,7 +26,7 @@ const GamePage: React.FC = () => {
   );
   const [quote, setQuote] = useState<string[]>([]);
   const [writtenQuote, setWrittenQuote] = useState<string[]>([]);
-  const [timer, setTimer] = useState<number>(2);
+  const [timer, setTimer] = useState<number>(60);
   const [endGame, setEndGame] = useState<boolean>(false);
 
   const { difficulty } = DifficultyContext();

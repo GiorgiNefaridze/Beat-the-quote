@@ -21,6 +21,7 @@ export const useSignUp = () => {
         password,
         image,
       });
+
       setLoading(false);
 
       return response;
