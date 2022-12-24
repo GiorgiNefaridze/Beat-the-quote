@@ -13,11 +13,14 @@ export const HomeWrapper = styled.div`
 
 export const Button = styled.button`
   padding: 15px 18px;
-  color: white;
+  background-color: white;
   font-weight: bold;
   font-size: 18px;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none;
   color: black;
-  cursor: pointer;
+
+  &:hover {
+    background-color: #adadad;
+  }
 `;

@@ -15,9 +15,23 @@ export const Nav = styled.nav`
     display: none;
   }
 
+  button {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #adadad;
+    }
+  }
+
   span {
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 `;

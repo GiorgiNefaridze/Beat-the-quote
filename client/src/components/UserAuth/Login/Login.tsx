@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useLogin } from "../../../hooks/useLogin";
-
 import { IData } from "../UserAuth";
+import { Close } from "../UserAuth.style";
+
+import { LoginForm, LoginFormComponent, ErrorDiv } from "./Login.style";
 
 interface IProps {
   setLogIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,17 +40,20 @@ const Login: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
     }
   };
 
+  const closePopUp = () => {
+    setShowPopUp(false);
+  };
+
   if (loading) {
-    return (
-      <div>
-        <h1>Loading ...</h1>
-      </div>
-    );
+    return <h1>Loading ...</h1>;
   }
 
   return (
-    <form onSubmit={handelSubmit}>
-      <div>
+    <LoginForm onSubmit={handelSubmit}>
+      <Close>
+        <CloseIcon titleAccess="close" onClick={closePopUp} />
+      </Close>
+      <LoginFormComponent>
         <label htmlFor="email">Email:</label>
         <input
           onChange={handleChange}
@@ -56,8 +62,8 @@ const Login: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
           type="text"
           id="email"
         />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent>
         <label htmlFor="password">Password:</label>
         <input
           onChange={handleChange}
@@ -66,16 +72,16 @@ const Login: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
           id="password"
           name="password"
         />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent>
         <button type="submit">Login</button>
         <p>
           Don't have account?
           <span onClick={signUp}>Sign up</span>
         </p>
-      </div>
-      {error && <span>{error}</span>}
-    </form>
+      </LoginFormComponent>
+      {error && <ErrorDiv>{error}</ErrorDiv>}
+    </LoginForm>
   );
 };
 

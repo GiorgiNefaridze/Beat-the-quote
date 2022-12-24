@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 
-import { LoginWrapper } from "./UserAuth.style";
+import { LoginWrapper, Close } from "./UserAuth.style";
 export interface Props {
   setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -17,17 +17,12 @@ export interface IData {
 const UserAuth: React.FC<Props> = ({ setShowPopUp }) => {
   const [logIn, setLogIn] = useState<boolean>(false);
 
-  const closePopUp = () => {
-    setShowPopUp(false);
-  };
-
   return (
-    <LoginWrapper>
-      <h2 onClick={closePopUp}>X</h2>
+    <LoginWrapper status={logIn}>
       {!logIn ? (
         <Login setShowPopUp={setShowPopUp} setLogIn={setLogIn} />
       ) : (
-        <SignUp setLogIn={setLogIn} />
+        <SignUp setShowPopUp={setShowPopUp} setLogIn={setLogIn} />
       )}
     </LoginWrapper>
   );

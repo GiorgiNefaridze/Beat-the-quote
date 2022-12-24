@@ -11,18 +11,23 @@ export const DashboardWrapeper = styled.div`
   height: 50%;
   overflow: hidden;
   border-radius: 15px;
-  box-shadow: 1px 1px 8px wheat;
+  box-shadow: 1px 1px 3px wheat;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px 0;
 `;
 
 export const AvatarWrapper = styled.div`
   width: 30px;
   height: 30px;
   position: relative;
+
+  span {
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
 `;
 
 export const UserImage = styled.img<IProps | HTMLElement>`
@@ -39,6 +44,7 @@ export const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px 0;
+  padding: 15px;
 
   div {
     width: 100%;
@@ -47,6 +53,7 @@ export const UserWrapper = styled.div`
     justify-content: space-between;
     flex-direction: initial;
     padding: 5px 8px;
+    cursor: pointer;
 
     div {
       display: flex;
@@ -78,7 +85,6 @@ export const User = styled.div<IProps | HTMLElement>`
   background-color: ${({ owner }) =>
     owner ? "rgba(225, 225, 225, 0.4)" : "rgba(225, 225, 225, 0.1)"};
   border-radius: 12px;
-  cursor: pointer;
 
   &:hover {
     background-color: rgba(225, 225, 225, 0.3);

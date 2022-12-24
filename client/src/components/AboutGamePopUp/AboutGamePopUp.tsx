@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 
+import PointSystem from "./Points/Points";
 import { DifficultyContext } from "../../context/DifficultyContext";
 import { UserContext } from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthPopUpContext";
@@ -12,6 +14,7 @@ import {
   Description,
   Levels,
   StartBtn,
+  AboutGame,
 } from "./AboutGamePopUp.style";
 
 interface Props {
@@ -23,7 +26,7 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
   const [error, setError] = useState<boolean>(false);
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
-  const closeRef = useRef<HTMLHeadingElement | null>(null);
+  const closeRef = useRef<SVGSVGElement | null>(null);
 
   const { difficulty, setDifficulty } = DifficultyContext();
   const { setShowPopUp: setShow } = AuthContext();
@@ -34,8 +37,8 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
     const { target } = e;
 
     if (
-      (target !== startRef.current && !popUpRef.current?.contains(target)) ||
-      closeRef.current === target
+      closeRef.current === target ||
+      (target !== startRef.current && !popUpRef.current?.contains(target))
     ) {
       setShowPopUp(false);
     }
@@ -75,17 +78,18 @@ const AboutGamePopUp: React.FC<Props> = ({ setShowPopUp, startRef }) => {
   return (
     <PopUp ref={popUpRef}>
       <Close>
-        <h1 title="close" ref={closeRef}>
-          X
-        </h1>
+        <CloseIcon ref={closeRef} titleAccess="close" />
       </Close>
-      <Description>
-        The main idea of the game is to write as many quotes as possible and
-        collect points, which will help you to be higher than ever in the
-        dashboard.easy = 2points, medium = 5points. hard = 8points
-      </Description>
+      <AboutGame>
+        <Description>
+          The main idea of this game is to write as many quotes as possible and
+          write quotes, which will help you to increase your scores in the
+          leaderboard.
+        </Description>
+        <PointSystem />
+      </AboutGame>
       <Levels>
-        <h3>Choose `LEVEL` and good luck.</h3>
+        <h3>Choose LEVEL</h3>
         <div>
           <input type="radio" name="game_mode" id="easy" />
           <label onClick={handleClick} htmlFor="easy">

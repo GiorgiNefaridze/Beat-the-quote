@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useSignUp } from "../../../hooks/useSignUp";
-
 import { IData } from "../UserAuth";
+
+import { LoginForm, LoginFormComponent, ErrorDiv } from "../Login/Login.style";
+import { Close } from "../UserAuth.style";
 
 interface IProps {
   setLogIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignUp: React.FC<IProps> = ({ setLogIn }) => {
+const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
   const [formData, setFormData] = useState<IData>({} as IData);
 
   const { signUp, error, setError, loading } = useSignUp();
@@ -24,8 +28,8 @@ const SignUp: React.FC<IProps> = ({ setLogIn }) => {
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
-    const reader = new FileReader();
     if (files) {
+      const reader = new FileReader();
       reader.readAsDataURL(files[0]);
       reader.onload = () => {
         if (typeof reader.result === "string") {
@@ -45,23 +49,26 @@ const SignUp: React.FC<IProps> = ({ setLogIn }) => {
     const { userName, password, email, image } = formData;
 
     const createdUser = await signUp(userName, email, password, image);
+
     if (createdUser?.data.text) {
-      console.log(createdUser?.data.text);
       logIn();
     }
   };
 
+  const closePopUp = () => {
+    setShowPopUp(false);
+  };
+
   if (loading) {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
+    return <h1>Loading...</h1>;
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <LoginForm onSubmit={handleSubmit}>
+      <Close>
+        <CloseIcon titleAccess="close" onClick={closePopUp} />
+      </Close>
+      <LoginFormComponent>
         <label htmlFor="username">Username:</label>
         <input
           onChange={handleChange}
@@ -70,18 +77,18 @@ const SignUp: React.FC<IProps> = ({ setLogIn }) => {
           id="username"
           name="userName"
         />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent>
         <label htmlFor="email">Email:</label>
         <input
           onChange={handleChange}
           value={formData.email}
-          type="email"
+          type="text"
           id="email"
           name="email"
         />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent>
         <label htmlFor="password">Password:</label>
         <input
           onChange={handleChange}
@@ -90,26 +97,26 @@ const SignUp: React.FC<IProps> = ({ setLogIn }) => {
           id="password"
           name="password"
         />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent style={{ height: "20%" }}>
         <input
           onChange={uploadImage}
-          style={{ display: "none" }}
+          style={{ display: "none", height: "45px" }}
           type="file"
           id="image"
         />
         <label htmlFor="image">Upload Image</label>
         <img style={{ width: "40px", height: "40px" }} src={formData?.image} />
-      </div>
-      <div>
+      </LoginFormComponent>
+      <LoginFormComponent>
         <button type="submit">Sign up</button>
         <p>
           Already have an account?
           <span onClick={logIn}>Log in</span>
         </p>
-      </div>
-      {error}
-    </form>
+      </LoginFormComponent>
+      {error && <ErrorDiv>{error}</ErrorDiv>}
+    </LoginForm>
   );
 };
 

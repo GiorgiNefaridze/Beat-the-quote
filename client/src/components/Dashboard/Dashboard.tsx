@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
   const [queue, setQueue] = useState<number>(0);
 
   const { users, setUsers } = AllUsersContext();
-  const { getAllUsers } = useGetAllUsers();
+  const { getAllUsers, loading } = useGetAllUsers();
   const { user } = UserContext();
 
   useEffect(() => {
@@ -50,8 +50,6 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     setQueue(users?.map((user) => user.email).indexOf(user?.email) + 1);
   }, [users]);
-
-  let loading = true;
 
   return (
     <DashboardWrapeper>
