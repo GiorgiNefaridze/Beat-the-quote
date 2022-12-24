@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const allUsers = await User.find({});
+    const allUsers = await User.find({}).sort({ score: -1 });
 
     res.status(200).json(allUsers);
   } catch (err) {
