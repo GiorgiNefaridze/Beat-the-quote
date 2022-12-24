@@ -10,7 +10,7 @@ export const GamePageWrapper = styled.div`
   flex-direction: column;
   gap: 40% 0;
   text-align: center;
-  padding: 10rem;
+  padding: 20rem;
   position: relative;
 
   button {

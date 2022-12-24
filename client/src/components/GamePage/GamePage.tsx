@@ -89,7 +89,7 @@ const GamePage: React.FC = () => {
   return (
     <GamePageWrapper>
       <Timer timer={timer} setTimer={setTimer} />
-      <q style={{ display: "flex" }}>
+      <q style={{ display: "flex", flexWrap: "wrap", justifyContent:"center" }}>
         {writtenQuote?.map((letter, idx) => (
           <h1 key={idx} style={{ background: "green", whiteSpace: "pre" }}>
             {letter}
