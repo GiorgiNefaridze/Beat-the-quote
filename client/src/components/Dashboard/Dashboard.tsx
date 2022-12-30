@@ -6,6 +6,7 @@ import { UserContext } from "../../context/UserContext";
 import { AllUsersContext } from "../../context/AllUsersContext";
 
 import { useGetAllUsers } from "../../hooks/useGetAllUsers";
+import { userGetUserNumeration } from "../../hooks/useGetUserNumeration";
 
 import {
   DashboardWrapeper,
@@ -27,23 +28,31 @@ export interface IUsers {
 }
 
 const Dashboard: React.FC = () => {
+  const [numeration, setNumeration] = useState<number>(0);
+
   const { users, setUsers } = AllUsersContext();
   const { getAllUsers, loading } = useGetAllUsers();
+  const { getUserNumeration } = userGetUserNumeration();
   const { user } = UserContext();
 
   useEffect(() => {
     let allowToFetch = true;
     (async () => {
       if (allowToFetch) {
-        const usersData = await getAllUsers();
+        const [usersData, { userNumeration }] = await Promise.all([
+          getAllUsers(),
+          getUserNumeration(user?.userName),
+        ]);
+
         setUsers(usersData);
+        setNumeration(userNumeration);
       }
     })();
 
     return () => {
       allowToFetch = false;
     };
-  }, []);
+  }, [user?.userName]);
 
   return (
     <DashboardWrapeper>
@@ -91,6 +100,7 @@ const Dashboard: React.FC = () => {
             <br />
             {user?.email?.length ? (
               <User visibility={true} owner={true}>
+                <p>{numeration + 1}</p>
                 <AvatarWrapper>
                   {user?.image ? (
                     <img src={user?.image} />
@@ -103,7 +113,7 @@ const Dashboard: React.FC = () => {
                   />
                   <span>{user?.userName}</span>
                 </AvatarWrapper>
-                {/* {queue < 5 ? (
+                {numeration < 5 ? (
                   <img
                     style={{ width: "15px", height: "15px" }}
                     src={process.env.PUBLIC_URL + "images/green-arrow.png"}
@@ -113,7 +123,7 @@ const Dashboard: React.FC = () => {
                     style={{ width: "15px", height: "15px" }}
                     src={process.env.PUBLIC_URL + "images/red-arrow.png"}
                   />
-                )} */}
+                )}
               </User>
             ) : null}
           </UserWrapper>

@@ -6,10 +6,9 @@ export const getUsers = async (req, res) => {
   try {
     const allUser = await User.find({}).sort({ score: -1 }).limit(5);
 
-    const Users = allUser?.map(({ image, userName, email, score }) => ({
+    const Users = allUser?.map(({ image, userName, score }) => ({
       image,
       userName,
-      email,
       score,
     }));
 
@@ -19,11 +18,28 @@ export const getUsers = async (req, res) => {
   }
 };
 
+export const getNumeration = async (req, res) => {
+  try {
+    const { userName } = req.body;
+
+    const users = await User.find({}).sort({ score: -1 });
+
+    users?.some((user, idx) => {
+      if (user.userName === userName) {
+        res.status(200).json({ userNumeration: idx });
+        return;
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const signUp = async (req, res) => {
   try {
     const { userName, email, password, image } = req.body;
 
-    if (!userName || !email || !password) {
+    if (userName?.trim().length < 1 || !email || !password) {
       throw new Error("All fields are required");
     }
 
