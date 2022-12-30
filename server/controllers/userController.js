@@ -4,9 +4,16 @@ import User from "../models/User.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const allUsers = await User.find({}).sort({ score: -1 });
+    const allUser = await User.find({}).sort({ score: -1 }).limit(5);
 
-    res.status(200).json(allUsers);
+    const Users = allUser?.map(({ image, userName, email, score }) => ({
+      image,
+      userName,
+      email,
+      score,
+    }));
+
+    res.status(200).json(Users);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
