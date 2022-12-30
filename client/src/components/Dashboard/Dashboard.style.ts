@@ -74,8 +74,6 @@ export const UserWrapper = styled.div`
 `;
 
 export const User = styled.div<IProps | HTMLElement>`
-  display: ${({ visibility }) =>
-    visibility ? "flex!important" : "none!important"};
   width: 100%;
   display: flex;
   align-items: center;

@@ -27,8 +27,6 @@ export interface IUsers {
 }
 
 const Dashboard: React.FC = () => {
-  const [queue, setQueue] = useState<number>(0);
-
   const { users, setUsers } = AllUsersContext();
   const { getAllUsers, loading } = useGetAllUsers();
   const { user } = UserContext();
@@ -46,10 +44,6 @@ const Dashboard: React.FC = () => {
       allowToFetch = false;
     };
   }, []);
-
-  useEffect(() => {
-    setQueue(users?.map((user) => user.email).indexOf(user?.email) + 1);
-  }, [users]);
 
   return (
     <DashboardWrapeper>
@@ -73,13 +67,9 @@ const Dashboard: React.FC = () => {
           <h1>LEADERBOARD</h1>
           <UserWrapper>
             {users?.map((userInfo, idx) => {
-              const { image, userName, email, score } = userInfo;
+              const { image, userName, score } = userInfo;
               return (
-                <User
-                  visibility={idx < 5}
-                  owner={email === user?.email}
-                  key={idx}
-                >
+                <User owner={userName === user?.userName} key={idx}>
                   <h4>{idx + 1}</h4>
                   <AvatarWrapper>
                     {image ? (
@@ -101,7 +91,6 @@ const Dashboard: React.FC = () => {
             <br />
             {user?.email?.length ? (
               <User visibility={true} owner={true}>
-                <h4>{queue}</h4>
                 <AvatarWrapper>
                   {user?.image ? (
                     <img src={user?.image} />
@@ -114,7 +103,7 @@ const Dashboard: React.FC = () => {
                   />
                   <span>{user?.userName}</span>
                 </AvatarWrapper>
-                {queue < 5 ? (
+                {/* {queue < 5 ? (
                   <img
                     style={{ width: "15px", height: "15px" }}
                     src={process.env.PUBLIC_URL + "images/green-arrow.png"}
@@ -124,7 +113,7 @@ const Dashboard: React.FC = () => {
                     style={{ width: "15px", height: "15px" }}
                     src={process.env.PUBLIC_URL + "images/red-arrow.png"}
                   />
-                )}
+                )} */}
               </User>
             ) : null}
           </UserWrapper>
