@@ -1,19 +1,31 @@
 import { Router } from "express";
+import ExpressRateLimit from "express-rate-limit";
 
-import { signUp, logIn, getUsers, getNumeration } from "../controllers/userController.js";
+import {
+  signUp,
+  logIn,
+  getUsers,
+  getNumeration,
+} from "../controllers/userController.js";
 
 const router = Router();
+
+const limitedRequests = ExpressRateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: Number(process.env.MAX_REQUEST),
+  message: "Too many requests.Try again later",
+});
 
 //Get all user
 router.get("/get-users", getUsers);
 
 //Get user numeration
-router.post("/get-numeration", getNumeration)
+router.post("/get-numeration", getNumeration);
 
 //Sign up
-router.post("/sign-up", signUp);
+router.post("/sign-up", limitedRequests, signUp);
 
 //Log in
-router.post("/log-in", logIn);
+router.post("/log-in", limitedRequests, logIn);
 
 export default router;

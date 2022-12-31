@@ -24,9 +24,9 @@ export const getNumeration = async (req, res) => {
 
     const users = await User.find({}).sort({ score: -1 });
 
-    users?.some((user, idx) => {
+    users?.forEach((user, idx) => {
       if (user.userName === userName) {
-        res.status(200).json({ userNumeration: idx });
+        res.status(200).json({ userNumeration: idx, score: user.score });
         return;
       }
     });
