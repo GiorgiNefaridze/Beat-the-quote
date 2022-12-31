@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
@@ -27,8 +27,16 @@ export interface IUsers {
   image?: string;
 }
 
+interface IUserStats {
+  userNumeration: number;
+  score: number;
+}
+
 const Dashboard: React.FC = () => {
-  const [numeration, setNumeration] = useState<number>(0);
+  const [userStats, setUserStats] = useState<IUserStats>({
+    userNumeration: 0,
+    score: 0,
+  });
 
   const { users, setUsers } = AllUsersContext();
   const { getAllUsers, loading } = useGetAllUsers();
@@ -39,20 +47,20 @@ const Dashboard: React.FC = () => {
     let allowToFetch = true;
     (async () => {
       if (allowToFetch) {
-        const [usersData, { userNumeration }] = await Promise.all([
-          getAllUsers(),
-          getUserNumeration(user?.userName),
-        ]);
+        const allUsers = await getAllUsers();
+        setUsers(allUsers);
 
-        setUsers(usersData);
-        setNumeration(userNumeration);
+        if (Object.keys(user).length) {
+          const stats = await getUserNumeration(user?.userName);
+          setUserStats(stats);
+        }
       }
     })();
 
     return () => {
       allowToFetch = false;
     };
-  }, [user?.userName]);
+  }, [user]);
 
   return (
     <DashboardWrapeper>
@@ -100,7 +108,7 @@ const Dashboard: React.FC = () => {
             <br />
             {user?.email?.length ? (
               <User visibility={true} owner={true}>
-                <p>{numeration + 1}</p>
+                <p>{userStats?.userNumeration + 1}</p>
                 <AvatarWrapper>
                   {user?.image ? (
                     <img src={user?.image} />
@@ -113,16 +121,13 @@ const Dashboard: React.FC = () => {
                   />
                   <span>{user?.userName}</span>
                 </AvatarWrapper>
-                {numeration < 5 ? (
+                {userStats?.userNumeration < 5 ? (
                   <img
                     style={{ width: "15px", height: "15px" }}
                     src={process.env.PUBLIC_URL + "images/green-arrow.png"}
                   />
                 ) : (
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={process.env.PUBLIC_URL + "images/red-arrow.png"}
-                  />
+                  <p>{userStats?.score}</p>
                 )}
               </User>
             ) : null}

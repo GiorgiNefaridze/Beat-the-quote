@@ -1,7 +1,7 @@
 import { API } from "../api/BaseUrl";
 
 interface IProps {
-  (userName: string): Promise<{ userNumeration: number }>;
+  (userName: string): Promise<{ userNumeration: number; score: number }>;
 }
 
 export const userGetUserNumeration = () => {
