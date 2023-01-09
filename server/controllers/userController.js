@@ -1,6 +1,16 @@
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import cloudinary from "cloudinary";
 
 import User from "../models/User.js";
+
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
 
 export const getUsers = async (req, res) => {
   try {
@@ -39,15 +49,19 @@ export const signUp = async (req, res) => {
   try {
     const { userName, email, password, image } = req.body;
 
-    if (userName?.trim().length < 1 || !email || !password) {
+    if (
+      userName?.trim().length < 1 ||
+      email?.trim().length < 1 ||
+      password?.trim().length < 1
+    ) {
       throw new Error("All fields are required");
     }
 
-    if (!email.includes("@")) {
+    if (!email?.includes("@")) {
       throw new Error("Please enter a valid email address");
     }
 
-    if (password.length <= 3) {
+    if (password?.length <= 3) {
       throw new Error("Your password must be at least 4 characters");
     }
 
@@ -60,14 +74,25 @@ export const signUp = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const imageUrl = await cloudinary.v2.uploader.upload(
+      image,
+      { public_id: email },
+      function (error, result) {
+        if (error) {
+          return;
+        }
+        return result;
+      }
+    );
+
     const newUser = {
       userName,
       email,
       password: hashedPassword,
-      image,
+      image: imageUrl?.secure_url,
     };
 
-    await User(newUser).save();
+    await new User(newUser).save();
 
     res.status(201).json({ text: "User created successfully" });
   } catch (err) {
