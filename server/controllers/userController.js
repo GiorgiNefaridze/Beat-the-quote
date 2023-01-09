@@ -37,9 +37,28 @@ export const getNumeration = async (req, res) => {
 
     users?.forEach((user, idx) => {
       if (user.userName === userName) {
-        res.status(200).json({ userNumeration: idx, score: user.score });
+        res.status(200).json({ userNumeration: idx, score: user?.score });
         return;
       }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const verifiedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(verifiedToken?.id);
+
+    res.status(200).json({
+      userName: user?.userName,
+      score: user?.score,
+      image: user?.image,
+      email: user?.email,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -121,9 +140,9 @@ export const logIn = async (req, res) => {
       throw new Error("Your email or password is incorrect");
     }
 
-    const token = jwt.sign({ id: user?._id }, "Secret key");
+    const token = jwt.sign({ id: user?._id }, process.env.JWT_SECRET);
 
-    res.status(200).json({ token: token });
+    res.status(200).json({ token: token, isLogin: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

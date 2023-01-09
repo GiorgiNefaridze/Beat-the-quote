@@ -6,6 +6,7 @@ import {
   logIn,
   getUsers,
   getNumeration,
+  getUser,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -18,6 +19,9 @@ const limitedRequests = ExpressRateLimit({
 
 //Get all user
 router.get("/get-users", getUsers);
+
+//Get User
+router.post("/get-user", getUser);
 
 //Get user numeration
 router.post("/get-numeration", getNumeration);

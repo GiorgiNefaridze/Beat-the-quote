@@ -18,9 +18,9 @@ export const getQuote = async (req, res) => {
 
 export const saveQuote = async (req, res) => {
   try {
-    const { quote, email, userName } = req.body;
+    const { quote, userName } = req.body;
 
-    const user = await User.findOne({ email, userName });
+    const user = await User.findOne({ userName });
 
     await User.updateOne(
       { _id: user._id },
@@ -29,7 +29,8 @@ export const saveQuote = async (req, res) => {
           quotes: [...user.quotes, quote],
           score: user.score + quote?.point,
         },
-      }
+      },
+      { new: true }
     );
   } catch (err) {
     res.status(500).json({ error: err.message });
