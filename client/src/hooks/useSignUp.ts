@@ -3,33 +3,35 @@ import { isAxiosError } from "axios";
 
 import { API } from "../api/BaseUrl";
 
+interface IData {
+  userName: string;
+  email: string;
+  password: string;
+  image: string;
+}
+
 export const useSignUp = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const signUp = async (
-    userName: string | undefined,
-    email: string | undefined,
-    password: string | undefined,
-    image?: string | undefined
-  ) => {
+  const signUp = async (data: IData) => {
     setLoading(true);
+
     try {
-      const response = await API.post("/api/user/sign-up", {
-        userName,
-        email,
-        password,
-        image,
-      });
+      const {
+        data: { text },
+      } = await API.post("/api/user/sign-up", data);
 
       setLoading(false);
 
-      return response;
+      return { message: text, status: "ok" };
     } catch (error) {
       if (isAxiosError(error)) {
         setError(error?.response?.data?.error);
       }
       setLoading(false);
+
+      return { message: "Something went wrong", status: "bad" };
     }
   };
 

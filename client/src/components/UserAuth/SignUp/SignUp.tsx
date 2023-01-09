@@ -13,13 +13,17 @@ interface IProps {
 }
 
 const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
-  const [formData, setFormData] = useState<IData>({} as IData);
+  const [formData, setFormData] = useState<IData>({
+    userName: "",
+    email: "",
+    password: "",
+    image: "",
+  });
 
   const { signUp, error, setError, loading } = useSignUp();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setError("");
 
     setFormData({ ...formData, [name]: value });
@@ -46,11 +50,9 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { userName, password, email, image } = formData;
+    const { message, status } = await signUp(formData);
 
-    const createdUser = await signUp(userName, email, password, image);
-
-    if (createdUser?.data.text) {
+    if (status === "ok") {
       logIn();
     }
   };
@@ -101,7 +103,7 @@ const SignUp: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
       <LoginFormComponent style={{ height: "20%" }}>
         <input
           onChange={uploadImage}
-          style={{ display: "none", height: "45px" }}
+          style={{ display: "none" }}
           type="file"
           id="image"
         />

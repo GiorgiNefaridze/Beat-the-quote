@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
@@ -45,12 +45,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     let allowToFetch = true;
+
+    const isLogin = localStorage.getItem("isLogin");
+
     (async () => {
       if (allowToFetch) {
         const allUsers = await getAllUsers();
         setUsers(allUsers);
 
-        if (Object.keys(user).length) {
+        if (isLogin) {
           const stats = await getUserNumeration(user?.userName);
           setUserStats(stats);
         }
@@ -83,28 +86,25 @@ const Dashboard: React.FC = () => {
         <>
           <h1>LEADERBOARD</h1>
           <UserWrapper>
-            {users?.map((userInfo, idx) => {
-              const { image, userName, score } = userInfo;
-              return (
-                <User owner={userName === user?.userName} key={idx}>
-                  <h4>{idx + 1}</h4>
-                  <AvatarWrapper>
-                    {image ? (
-                      <img src={image} />
-                    ) : (
-                      <img src={process.env.PUBLIC_URL + "images/avatar.png"} />
-                    )}
-                    <UserImage
-                      display={idx === 0 ? "block" : "none"}
-                      src={process.env.PUBLIC_URL + "images/golden.png"}
-                    />
-                    <span>{userName}</span>
-                  </AvatarWrapper>
-                  <div></div>
-                  <p>{score}</p>
-                </User>
-              );
-            })}
+            {users?.map(({ image, userName, score }, idx) => (
+              <User owner={userName === user?.userName} key={idx}>
+                <h4>{idx + 1}</h4>
+                <AvatarWrapper>
+                  {image ? (
+                    <img src={image} />
+                  ) : (
+                    <img src={process.env.PUBLIC_URL + "images/avatar.png"} />
+                  )}
+                  <UserImage
+                    display={idx === 0 ? "block" : "none"}
+                    src={process.env.PUBLIC_URL + "images/golden.png"}
+                  />
+                  <span>{userName}</span>
+                </AvatarWrapper>
+                <div></div>
+                <p>{score}</p>
+              </User>
+            ))}
             <br />
             {user?.email?.length ? (
               <User visibility={true} owner={true}>

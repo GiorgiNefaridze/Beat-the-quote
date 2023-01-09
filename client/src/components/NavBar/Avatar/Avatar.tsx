@@ -30,8 +30,8 @@ const UserAvatar: React.FC = () => {
   };
 
   const logOut = () => {
-    setUser({ email: "", image: "", userName: "" });
-    localStorage.removeItem("user");
+    setUser({ score: 0, image: "", userName: "" });
+    localStorage.clear();
   };
 
   const addAnotherAccount = () => {
@@ -57,7 +57,7 @@ const UserAvatar: React.FC = () => {
               />
             ) : (
               <Avatar sx={{ width: 32, height: 32 }}>
-                {user?.userName.charAt(0).toUpperCase()}
+                {user?.userName?.charAt(0).toUpperCase()}
               </Avatar>
             )}
           </IconButton>

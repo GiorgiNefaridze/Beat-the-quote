@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { API } from "../api/BaseUrl";
-
 import { IUsers } from "../components/Dashboard/Dashboard";
 
 export const useGetAllUsers = () => {

@@ -9,14 +9,13 @@ interface IQuote {
 }
 
 interface IProps {
-  (quote: IQuote, email: string, userName: string): void;
+  (quote: IQuote, userName: string): void;
 }
 
 export const useCompleteQuote = () => {
-  const completeQuote: IProps = async (quote, email, userName) => {
+  const completeQuote: IProps = async (quote, userName) => {
     await API.post("/api/quote/saveQuote", {
       quote,
-      email,
       userName,
     });
   };

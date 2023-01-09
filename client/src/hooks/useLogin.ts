@@ -2,9 +2,9 @@ import { useState } from "react";
 import { isAxiosError } from "axios";
 
 import { useGetAllUsers } from "./useGetAllUsers";
-
 import { UserContext } from "../context/UserContext";
 import { AllUsersContext } from "../context//AllUsersContext";
+
 import { API } from "../api/BaseUrl";
 
 export const useLogin = () => {
@@ -26,8 +26,14 @@ export const useLogin = () => {
 
       const allUsers = await getAllUsers();
 
-      localStorage.setItem("user", JSON.stringify(data));
-      setUser(data);
+      localStorage.setItem("isLogin", data?.isLogin);
+      localStorage.setItem("token", data?.token);
+
+      const { data: response } = await API.post("/api/user/get-user", {
+        token: data?.token,
+      });
+
+      setUser(response);
       setUsers(allUsers);
 
       return data;

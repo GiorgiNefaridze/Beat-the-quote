@@ -35,7 +35,7 @@ const Login: React.FC<IProps> = ({ setLogIn, setShowPopUp }) => {
 
     const user = await loginUser(email, password);
 
-    if (user) {
+    if (user?.isLogin) {
       setShowPopUp(false);
     }
   };

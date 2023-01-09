@@ -76,7 +76,7 @@ const GamePage: React.FC = () => {
         setQuoteDetail(randomQuote?.quote);
         setQuote(randomQuote?.letterOfQuote);
 
-        await completeQuote(quoteDetail, user?.email, user?.userName);
+        await completeQuote(quoteDetail, user?.userName);
         return;
       }
     }
@@ -89,7 +89,9 @@ const GamePage: React.FC = () => {
   return (
     <GamePageWrapper>
       <Timer timer={timer} setTimer={setTimer} />
-      <q style={{ display: "flex", flexWrap: "wrap", justifyContent:"center" }}>
+      <q
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
         {writtenQuote?.map((letter, idx) => (
           <h1 key={idx} style={{ background: "green", whiteSpace: "pre" }}>
             {letter}

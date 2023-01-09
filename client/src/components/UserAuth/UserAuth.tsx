@@ -3,15 +3,17 @@ import React, { useState } from "react";
 import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 
-import { LoginWrapper, Close } from "./UserAuth.style";
+import { LoginWrapper } from "./UserAuth.style";
 export interface Props {
   setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface IData {
   userName: string;
   password: string;
-  email?: string;
-  image?: string;
+  email: string;
+  image: string;
+  score?: number;
+  quotes?: {}[];
 }
 
 const UserAuth: React.FC<Props> = ({ setShowPopUp }) => {

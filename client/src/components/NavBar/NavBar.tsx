@@ -9,6 +9,8 @@ import UserAuth from "../UserAuth/UserAuth";
 import { Nav } from "./NavBar.style";
 
 const NavBar: React.FC = () => {
+  const isLogin = localStorage.getItem("isLogin");
+
   const { user } = UserContext();
   const { showPopUp, setShowPopUp } = AuthContext();
 
@@ -18,9 +20,9 @@ const NavBar: React.FC = () => {
 
   return (
     <Nav>
-      {!user.email && <button onClick={login}>Login</button>}
+      {!isLogin && <button onClick={login}>Login</button>}
 
-      {user.email && (
+      {isLogin && (
         <>
           <span>{user?.userName}</span>
           <UserAvatar />
