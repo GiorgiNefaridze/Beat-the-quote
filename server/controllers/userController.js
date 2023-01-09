@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import cloudinary from "cloudinary";
+import jwt from "jsonwebtoken";
 
 import User from "../models/User.js";
 
@@ -108,11 +109,11 @@ export const logIn = async (req, res) => {
       throw new Error("All fields are required");
     }
 
-    const user = await User.findOne({ email });
-
     if (!email.includes("@")) {
       throw new Error("Please enter a valid email address");
     }
+
+    const user = await User.findOne({ email });
 
     const actualPassword = await bcrypt.compare(password, user?.password);
 
@@ -120,12 +121,9 @@ export const logIn = async (req, res) => {
       throw new Error("Your email or password is incorrect");
     }
 
-    res.status(200).json({
-      userName: user.userName,
-      email: user.email,
-      image: user.image ? user.image : null,
-      score: user.score,
-    });
+    const token = jwt.sign({ id: user?._id }, "Secret key");
+
+    res.status(200).json({ token: token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
