@@ -96,10 +96,10 @@ export const signUp = async (req, res) => {
 
     let imageUrl;
 
-    if (image?.length) {
+    if (image?.length > 1) {
       imageUrl = await cloudinary.v2.uploader.upload(
         image,
-        { public_id: email },
+        { public_id: email, resource_type: "auto" },
         function (error, result) {
           return result;
         }
