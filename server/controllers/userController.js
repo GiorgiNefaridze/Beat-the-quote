@@ -94,12 +94,12 @@ export const signUp = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    let imageUrl;
+    let imageUrl = "";
 
     if (image?.length) {
       imageUrl = await cloudinary.v2.uploader.upload(
         image,
-        { public_id: email },
+        { public_id: email, resource_type: "auto" },
         function (error, result) {
           return result;
         }
