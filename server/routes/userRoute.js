@@ -27,7 +27,7 @@ router.post("/get-user", getUser);
 router.post("/get-numeration", getNumeration);
 
 //Sign up
-router.post("/sign-up", limitedRequests, signUp);
+router.post("/sign-up", signUp);
 
 //Log in
 router.post("/log-in", limitedRequests, logIn);

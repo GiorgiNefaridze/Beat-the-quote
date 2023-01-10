@@ -94,22 +94,23 @@ export const signUp = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const imageUrl = await cloudinary.v2.uploader.upload(
-      image,
-      { public_id: email },
-      function (error, result) {
-        if (error) {
-          return;
+    let imageUrl;
+
+    if (image?.length) {
+      imageUrl = await cloudinary.v2.uploader.upload(
+        image,
+        { public_id: email },
+        function (error, result) {
+          return result;
         }
-        return result;
-      }
-    );
+      );
+    }
 
     const newUser = {
       userName,
       email,
       password: hashedPassword,
-      image: imageUrl?.secure_url,
+      image: imageUrl?.secure_url || "",
     };
 
     await new User(newUser).save();
